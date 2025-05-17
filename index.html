@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        body {
+            background-color: rgb(165, 159, 159);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg  bg-info bg-dark navbar-dark text-warning  ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-3 col-6 d-flex">
+        <input type="text" id="inputPassword5" class="form-control" placeholder="Chapter Name">
+        <button class="btn btn-success col-2 btn-outline-info text-white">Add Chapter</button>
+    </div>
+    <div class="container col-6 mt-5 " id="mainDiv">
+        <ul class="list-group d-flex" id="ul">
+            <li class="list-group-item d-flex justify-content-between">
+                <h3 class="flex-grow-1">Chapter 1</h3>
+                <button class="btn btn-outline-info btn-success text-white mx-2" onclick="Edit(this)">Edit</button>
+                <button class="btn btn-outline-warning btn-danger text-white" onclick="remove(this)"> Remove</button>
+            </li>
+        </ul>
+    </div>
+    <div id="try">
+
+    </div>
+</body>
+
+<!-- Boostrap -->
+<!-- <script src="../bootstrap/css/js/poper.min.js"></script> -->
+<script src="../bootstrap/css/js/bootstrap.bundle.min.js"></script>
+
+<!-- My JavaScript -->
+<script>
+    // main division tag
+    const mainDiv = document.getElementById('mainDiv').children[0];
+    // extract text from user input
+    const textof = document.getElementById('inputPassword5');
+
+    // click button 
+    const btn = textof.nextElementSibling;
+    btn.addEventListener('click', Add);
+    // create element function 
+    function Add() {
+        const toCreate = document.createElement('li');
+        toCreate.innerHTML = `<h3 class="flex-grow-1">${textof.value}</h3>
+                <button class="btn btn-outline-info btn-success text-white mx-2"  onclick="Edit(this)">Edit</button>
+                <button class="btn btn-outline-warning btn-danger text-white" onclick="remove(this)">Remove</button>`;
+        toCreate.className = "list-group-item d-flex justify-content-between";
+        mainDiv.appendChild(toCreate);
+        const ul = document.getElementById('ul');
+        if (ul.children[0].getAttribute('data-first') == 'first') {
+            ul.children[0].remove();
+        }
+    }
+    // remove fucntoin 
+    function remove(elem) {
+        elem.parentElement.remove();
+
+        const ul = document.getElementById('ul');
+
+        if (ul.children.length <= 0) {
+            // console.log(ul.Element.length)
+            const create = document.createElement('h3');
+            create.className = 'flex-grow-1';
+            create.textContent = "Nothing is here. please add chapter!!";
+            create.setAttribute('data-first', 'first');
+            ul.appendChild(create);
+
+        }
+    }
+
+    // Edit chapter Name
+    function Edit(element) {
+        if (element.textContent == 'Done') {
+            element.textContent = 'Edit';
+
+            const editContent = element.previousElementSibling.value;
+            // create H3
+            const h3 = document.createElement('h3');
+            h3.classList.add('flex-grow-1');
+            h3.textContent = editContent;
+            element.parentElement.replaceChild(h3, element.previousElementSibling);
+
+        } else {
+            element.textContent = 'Done';
+            const chaptername = element.previousElementSibling;
+            console.log(chaptername)
+            const parent = element.parentElement;
+            const create = document.createElement('input');
+            create.type = 'text';
+            // create.classList.add('form-control');
+            create.className = 'form-control flex-grow-1'
+            create.placeholder = 'Chapter Name';
+            create.value = chaptername.innerText;
+            parent.replaceChild(create, chaptername)
+        }
+    }
+</script>
+
+</html>
